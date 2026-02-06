@@ -5,13 +5,14 @@
 [![AI Powered](https://img.shields.io/badge/AI-Powered-FF6B6B?style=for-the-badge&logo=google)](https://ai.google.dev/)
 > ## 🧩 Problem Statement Alignment (Hackathon Judges)
 Nexus Campus Hub is built specifically for the **AI Fusion Hackathon – Project Nexus** challenge.
-## 📚 Full Project Documentation
 
-For a detailed explanation of the system architecture, AI integration, backend APIs, deployment strategy, and design decisions, please refer to the complete project documentation:
+## 🔗 Quick Links
 
-
-👉 **Google Docs:**  
-https://docs.google.com/document/d/1NWB1EHaatTffjQyunW-DNPJAI_0leO_7sFX3xqND-Go/edit?usp=sharing
+- 🎥 Demo Video (Google Drive):  
+  [https://drive.google.com/file/d/YOUR_VIDEO_ID/view?usp=sharing](https://drive.google.com/drive/u/0/folders/1rX3NjeHGqls4azLWwQVERf-3V0tlvXe8)
+  
+- 📚 Full Project Documentation (Google Docs):  
+  https://docs.google.com/document/d/1NWB1EHaatTffjQyunW-DNPJAI_0leO_7sFX3xqND-Go/edit?usp=sharing
 ### Core Pillars Covered
 ✅ Daily Pulse – Live dashboard + AI Mail Summarizer  
 ✅ Student Exchange – Marketplace, Lost & Found, Travel Sharing (UI flows)  

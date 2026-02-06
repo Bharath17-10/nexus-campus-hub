@@ -38,6 +38,12 @@ Nexus Campus Hub is a full-stack web application designed to simplify campus lif
 - **Campus Organizations** - Promoting events and activities
 
 ---
+### Hackathon Scope Note
+This project was built during a limited-time hackathon.
+We prioritized one fully functional AI-powered feature (Mail Summarizer)
+and designed the remaining modules as scalable, production-ready flows.
+
+---
 
 ## 🏗️ Architecture
 
@@ -642,3 +648,4 @@ Edit `tailwind.config.js` for colors and themes. All components use Tailwind cla
 Made with ❤️ for the student community
 
 </div>
+

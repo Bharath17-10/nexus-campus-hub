@@ -1,309 +1,430 @@
 # 🎓 Nexus Campus Hub
-
-**A comprehensive AI-powered campus management platform for college students**
-
-[![Built with React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
-[![Firebase](https://img.shields.io/badge/Firebase-Enabled-orange)](https://firebase.google.com/)
-[![Gemini AI](https://img.shields.io/badge/Gemini-AI%20Powered-purple)](https://ai.google.dev/)
-
+> Your all-in-one platform for campus life - bringing together everything students need in one beautiful, intuitive interface.
+[![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![Powered by Vite](https://img.shields.io/badge/Powered%20by-Vite-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-FF6B6B?style=for-the-badge&logo=google)](https://ai.google.dev/)
 ---
-
-## 🌟 Overview
-
-Nexus Campus Hub is an all-in-one platform designed to streamline college life by integrating **AI-powered features** across four core pillars:
-
-1. **Daily Pulse** - Mess menu, mail summarization, and announcements
-2. **Student Exchange** - Lost & found with AI image recognition
-3. **Explorer's Guide** - Campus navigation and resources
-4. **Academic Cockpit** - Timetables, assignments, and AI study planner
-
+## 🏗️ System Architecture
+### High-Level Overview
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        A[Web Browser]
+    end
+    
+    subgraph "Frontend - React App"
+        B[React Components]
+        C[API Service Layer]
+        D[State Management]
+    end
+    
+    subgraph "Backend - Express Server"
+        E[API Routes]
+        F[Business Logic]
+        G[AI Service]
+    end
+    
+    subgraph "External Services"
+        H[Google Gemini AI]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    E --> F
+    F --> G
+    G --> H
+    
+    style A fill:#61DAFB,stroke:#333,stroke-width:2px
+    style B fill:#61DAFB,stroke:#333,stroke-width:2px
+    style E fill:#68A063,stroke:#333,stroke-width:2px
+    style H fill:#FF6B6B,stroke:#333,stroke-width:2px
+```
+### Mail Summarizer Flow
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant B as Backend
+    participant AI as Gemini AI
+    participant D as Demo Mode
+    
+    U->>F: Paste email & click "Summarize"
+    F->>F: Show loading state
+    F->>B: POST /api/summarize
+    
+    alt AI Available
+        B->>AI: Send email content
+        AI->>AI: Analyze with gemini-3-flash-preview
+        AI->>B: Return JSON (summary, category, priority)
+        B->>F: Send AI response
+    else AI Unavailable
+        B->>D: Fallback to demo mode
+        D->>D: Keyword-based analysis
+        D->>B: Return analyzed data
+        B->>F: Send demo response
+    end
+    
+    F->>F: Display results with animations
+    F->>U: Show summary, category & priority
+```
+### Data Flow Architecture
+```mermaid
+flowchart LR
+    subgraph Input
+        A[Email Text]
+    end
+    
+    subgraph Frontend
+        B[MailSummarizer Component]
+        C[API Service]
+    end
+    
+    subgraph Backend
+        D[Express Router]
+        E[Validation]
+        F[AI Service]
+    end
+    
+    subgraph Processing
+        G{AI Available?}
+        H[Gemini AI]
+        I[Demo Mode]
+    end
+    
+    subgraph Output
+        J[Summary]
+        K[Category]
+        L[Priority]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G -->|Yes| H
+    G -->|No| I
+    H --> J
+    I --> J
+    J --> K
+    K --> L
+    L --> B
+    
+    style A fill:#E3F2FD
+    style H fill:#FF6B6B
+    style I fill:#FFF9C4
+    style J fill:#C8E6C9
+    style K fill:#C8E6C9
+    style L fill:#C8E6C9
+```
+### Technology Stack Diagram
+```mermaid
+graph TB
+    subgraph "Frontend Stack"
+        A1[React 18]
+        A2[TypeScript]
+        A3[Vite]
+        A4[Tailwind CSS]
+        A5[Framer Motion]
+        A6[React Query]
+    end
+    
+    subgraph "Backend Stack"
+        B1[Node.js]
+        B2[Express]
+        B3[Google AI SDK]
+        B4[Helmet Security]
+        B5[Morgan Logging]
+        B6[CORS]
+    end
+    
+    subgraph "AI & Services"
+        C1[Gemini API]
+        C2[gemini-3-flash-preview]
+    end
+    
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A4 --> A5
+    A5 --> A6
+    
+    B1 --> B2
+    B2 --> B3
+    B3 --> B4
+    B4 --> B5
+    B5 --> B6
+    
+    C1 --> C2
+    
+    A6 -.HTTP.-> B2
+    B3 -.API.-> C1
+    
+    style A1 fill:#61DAFB
+    style B1 fill:#68A063
+    style C1 fill:#FF6B6B
+```
 ---
-
 ## ✨ Key Features
-
-### 🤖 AI/ML Components (4 Total)
-
-#### 1. **Mail Summarizer** (Gemini AI) ⭐ *Mandatory*
-- Paste any email and get instant AI-powered summaries
-- Automatic categorization (Academic, Event, Urgent, General)
-- Priority detection (High, Medium, Low)
-- Action item extraction
-
-#### 2. **Lost & Found with Image Recognition** (Gemini Vision)
-- Upload photos of lost/found items
-- AI automatically tags and categorizes objects
-- Smart search and matching
-- Real-time item feed
-
-#### 3. **AI Study Schedule Generator** (Gemini AI)
-- Input your subjects and get personalized study plans
-- AI-generated study tips and strategies
-- Exam preparation recommendations
-- Time management suggestions
-
-#### 4. **Mess Menu Recommendations** (Gemini AI)
-- AI-powered meal suggestions based on preferences
-- Dietary restriction support
-- Time-aware recommendations (quick meals before class)
-- Nutritional insights
-
-### 🔐 Authentication
-- Email/Password authentication
-- Google OAuth integration
-- Protected routes
-- User profile management
-
-### ⚡ Real-time Features
-- Live announcements feed
-- Real-time lost & found updates
-- Firestore real-time listeners
-- Instant notifications
-
-### 📱 Responsive Design
-- Mobile-first approach
-- Beautiful glassmorphism UI
-- Smooth animations with Framer Motion
-- Dark mode support
-
+### 🤖 AI-Powered Mail Summarizer
+The crown jewel of Nexus Campus Hub! Our intelligent mail summarizer uses Google's Gemini AI to:
+- **Understand Context** - Knows the difference between an exam notification and a club event
+- **Categorize Smartly** - Automatically tags emails as Academic, Event, Urgent, or General
+- **Prioritize for You** - Marks emails as High, Medium, or Low priority
+- **Summarize Concisely** - Gives you the key points in 1-2 sentences
+**How it works:**
+1. Copy any campus email
+2. Paste it into the Mail Summarizer
+3. Click "Summarize Email"
+4. Get instant insights! 🎉
+### 🎨 Beautiful, Modern Design
+- Smooth animations that feel natural
+- Gradient backgrounds that pop
+- Responsive design that works on any device
+- Dark mode friendly (coming soon!)
+### ⚡ Lightning Fast
+- Built with Vite for instant hot reload
+- Optimized for performance
+- Smooth page transitions
+- No lag, no waiting
 ---
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **React 18** + **TypeScript**
-- **Vite** - Lightning-fast build tool
-- **Tailwind CSS** - Utility-first styling
-- **shadcn/ui** - Beautiful component library
-- **Framer Motion** - Smooth animations
-
-### Backend & AI
-- **Firebase Authentication** - User management
-- **Firestore** - Real-time database
-- **Firebase Storage** - Image uploads
-- **Google Gemini AI** - Text & vision models
-
-### State Management
-- **React Context** - Auth state
-- **TanStack Query** - Server state
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+ and npm
-- Firebase account
-- Google Gemini API key
-
-### Installation
-
+## 🚀 Getting Started
+### What You'll Need
+Before you start, make sure you have:
+- **Node.js** (version 16 or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js)
+- A **Google Gemini API key** (for the AI features) - [Get one free](https://ai.google.dev/)
+### Quick Setup (5 minutes!)
+**Step 1: Get the Code**
 ```bash
-# Clone the repository
+# Clone this repository
 git clone <your-repo-url>
 cd nexus-campus-hub
-
-# Install dependencies
+```
+**Step 2: Install Dependencies**
+```bash
+# Install frontend dependencies
 npm install
-
-# Set up environment variables (see SETUP_GUIDE.md)
-# Copy .env.local and fill in your API keys
-
-# Start development server
+# Install backend dependencies
+cd server
+npm install
+cd ..
+```
+**Step 3: Configure the AI**
+```bash
+# Go to the server folder
+cd server
+# Create your environment file
+cp .env.example .env
+# Open .env and add your Gemini API key
+# GEMINI_API_KEY=your_actual_api_key_here
+```
+**Step 4: Start Everything**
+Open two terminal windows:
+**Terminal 1 - Frontend:**
+```bash
 npm run dev
 ```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
----
-
-## 🔑 Configuration
-
-### Required API Keys
-
-1. **Firebase** - Get from [Firebase Console](https://console.firebase.google.com/)
-2. **Gemini AI** - Get from [Google AI Studio](https://makersuite.google.com/app/apikey)
-
-See **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** for detailed step-by-step instructions.
-
-### Environment Variables
-
-Create `.env.local` in the project root:
-
-```env
-# Firebase
-VITE_FIREBASE_API_KEY=your_key_here
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-
-# Gemini AI
-VITE_GEMINI_API_KEY=your_gemini_key_here
-```
-
----
-
-## 📖 Features Walkthrough
-
-### 1. Authentication
-- Sign up with email or Google
-- Secure login with Firebase Auth
-- Protected routes for all features
-
-### 2. Daily Pulse
-- **Mess Menu**: View today's breakfast, lunch, and dinner
-- **Mail Summarizer**: AI-powered email analysis
-- **Announcements**: Real-time campus updates
-
-### 3. Lost & Found
-- Report lost or found items
-- Upload photos for AI recognition
-- Search and filter items
-- Contact item owners
-
-### 4. Academic Cockpit
-- View class timetables
-- Track assignments and deadlines
-- Monitor academic performance
-- **AI Study Planner**: Generate personalized study schedules
-
----
-
-## 🧪 Testing
-
-### Manual Testing Checklist
-
-✅ **Authentication**
-- [ ] Sign up with email/password
-- [ ] Login with existing account
-- [ ] Google OAuth login
-- [ ] Logout functionality
-
-✅ **Mail Summarizer**
-- [ ] Paste email content
-- [ ] Verify AI summary generation
-- [ ] Check category/priority detection
-
-✅ **Lost & Found**
-- [ ] Upload item image
-- [ ] Verify AI object detection
-- [ ] Submit lost/found report
-- [ ] View items feed
-
-✅ **Study Planner**
-- [ ] Enter subjects
-- [ ] Generate AI study schedule
-- [ ] View study tips
-
----
-
-## 📦 Build & Deploy
-
-### Build for Production
-
+**Terminal 2 - Backend:**
 ```bash
-npm run build
+cd server
+npm start
 ```
-
-### Deploy to Vercel
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
-
-### Deploy to Firebase Hosting
-
-```bash
-# Install Firebase CLI
-npm i -g firebase-tools
-
-# Login and initialize
-firebase login
-firebase init hosting
-
-# Deploy
-npm run build
-firebase deploy
-```
-
+**Step 5: Open Your Browser**
+Go to `http://localhost:8080` and you're ready! 🎉
 ---
-
-## 🎯 Hackathon Submission Checklist
-
-- [x] **2+ AI/ML Components**: Mail Summarizer, Image Recognition, Study Planner, Mess Recommendations
-- [x] **Authentication**: Firebase Auth with email and Google OAuth
-- [x] **Real-time Features**: Firestore real-time listeners
-- [x] **Responsive UI**: Mobile-first design with Tailwind CSS
-- [x] **Database**: Firestore for data persistence
-- [x] **Deployed**: Ready for Vercel/Firebase deployment
-- [x] **Documentation**: Comprehensive README and setup guide
-
+## 🎮 How to Use
+### Using the Mail Summarizer
+1. **Navigate** to the Daily Pulse page (it's the home page)
+2. **Find** the "Mail Summarizer" card
+3. **Paste** any campus email into the text box
+4. **Click** "Summarize Email"
+5. **Watch** the magic happen! ✨
+The AI will analyze your email and show you:
+- 📝 A concise summary
+- 🏷️ Category (Academic/Event/Urgent/General)
+- 🎯 Priority level (High/Medium/Low)
+### Exploring Other Features
+- **Daily Pulse** - Your personalized dashboard
+- **Student Exchange** - Connect globally
+- **Explorer's Guide** - Discover campus
+- **Academic Cockpit** - Manage your studies
 ---
-
+## 🛠️ Tech Stack
+### Frontend
+- **React 18** - Modern UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Next-generation build tool
+- **Tailwind CSS** - Utility-first styling
+- **Framer Motion** - Smooth animations
+- **shadcn/ui** - Beautiful components
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express** - Web framework
+- **Google Gemini AI** - AI-powered analysis
+- **Helmet** - Security middleware
+- **Morgan** - Request logging
+---
 ## 📁 Project Structure
-
 ```
 nexus-campus-hub/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── auth/           # Authentication components
-│   │   ├── daily-pulse/    # Daily Pulse features
-│   │   ├── academic/       # Academic components
-│   │   ├── layout/         # Layout components
-│   │   └── ui/             # shadcn/ui components
-│   ├── contexts/           # React contexts
-│   │   └── AuthContext.tsx # Authentication state
-│   ├── lib/                # Utilities and configs
-│   │   ├── firebase.config.ts
-│   │   └── gemini.config.ts
-│   ├── pages/              # Page components
-│   │   ├── Login.tsx
-│   │   ├── Signup.tsx
-│   │   ├── DailyPulse.tsx
-│   │   ├── LostAndFound.tsx
-│   │   └── AcademicCockpit.tsx
-│   ├── services/           # API services
-│   │   ├── gemini.service.ts
-│   │   ├── firestore.service.ts
-│   │   └── imageRecognition.service.ts
-│   └── App.tsx             # Main app component
-├── .env.local              # Environment variables
-├── SETUP_GUIDE.md          # Detailed setup instructions
-└── README.md               # This file
+├── src/                          # Frontend source code
+│   ├── components/               # Reusable UI components
+│   │   ├── daily-pulse/         # Daily Pulse components
+│   │   │   └── MailSummarizer.tsx  # AI mail summarizer
+│   │   ├── layout/              # Layout components
+│   │   └── ui/                  # UI primitives
+│   ├── pages/                   # Page components
+│   ├── services/                # API services
+│   └── App.tsx                  # Main app component
+│
+├── server/                      # Backend server
+│   ├── src/
+│   │   ├── routes/             # API routes
+│   │   ├── services/           # Business logic
+│   │   │   └── aiService.js    # Gemini AI integration
+│   │   ├── middleware/         # Express middleware
+│   │   └── index.js            # Server entry point
+│   ├── .env                    # Environment variables
+│   └── package.json            # Backend dependencies
+│
+├── package.json                # Frontend dependencies
+└── README.md                   # You are here! 👋
 ```
-
 ---
-
+## 🔧 Configuration
+### Environment Variables
+**Backend (.env in server folder):**
+```env
+PORT=3001                        # Backend server port
+GEMINI_API_KEY=your_key_here    # Your Gemini API key
+NODE_ENV=development            # Environment
+CORS_ORIGIN=http://localhost:8080  # Frontend URL
+RATE_LIMIT_WINDOW_MS=900000     # Rate limit window
+RATE_LIMIT_MAX_REQUESTS=100     # Max requests per window
+```
+### Getting a Gemini API Key
+1. Go to [Google AI Studio](https://ai.google.dev/)
+2. Sign in with your Google account
+3. Click "Get API Key"
+4. Create a new API key
+5. Copy it to your `.env` file
+**It's free!** Google provides a generous free tier for Gemini API.
+---
+## 🎯 Features in Detail
+### Mail Summarizer Categories
+**📅 Academic**
+- Course announcements
+- Exam schedules
+- Assignment deadlines
+- Grade notifications
+**📢 Event**
+- Campus events
+- Workshops and seminars
+- Club activities
+- Competitions
+**⚠️ Urgent**
+- Time-sensitive deadlines
+- Emergency notifications
+- Critical announcements
+- Last-minute changes
+**✉️ General**
+- Regular updates
+- Information notices
+- General announcements
+- FYI messages
+### Priority Levels
+- **🔴 High** - Urgent deadlines, critical information
+- **🟡 Medium** - Important but not urgent
+- **🟢 Low** - General information, FYI
+---
+## 🐛 Troubleshooting
+### "Failed to fetch" error
+**Problem:** Frontend can't connect to backend
+**Solution:**
+1. Make sure backend is running on port 3001
+2. Check that CORS_ORIGIN in `.env` matches your frontend URL
+3. Restart both servers
+### "API key not valid" error
+**Problem:** Gemini API key is incorrect or missing
+**Solution:**
+1. Check your `.env` file in the `server` folder
+2. Make sure `GEMINI_API_KEY` is set correctly
+3. Verify the key is valid at [Google AI Studio](https://ai.google.dev/)
+4. Restart the backend server
+### Demo Mode Activated
+**What it means:** The AI service fell back to keyword-based analysis
+**Why it happens:**
+- Invalid API key
+- API quota exceeded
+- Network issues
+**What to do:**
+- Demo mode still works great! It uses intelligent keyword matching
+- To use real AI, fix your API key configuration
+- Check the backend logs for specific error messages
+### Port Already in Use
+**Problem:** `EADDRINUSE` error when starting servers
+**Solution:**
+```bash
+# On Windows
+netstat -ano | findstr :3001
+taskkill /PID <process_id> /F
+# On Mac/Linux
+lsof -ti:3001 | xargs kill -9
+```
+---
 ## 🤝 Contributing
-
-This project was built for a hackathon. Feel free to fork and improve!
-
+We'd love your help making Nexus Campus Hub even better! Here's how:
+1. **Fork** the repository
+2. **Create** a new branch (`git checkout -b feature/amazing-feature`)
+3. **Make** your changes
+4. **Commit** (`git commit -m 'Add some amazing feature'`)
+5. **Push** (`git push origin feature/amazing-feature`)
+6. **Open** a Pull Request
+### Development Guidelines
+- Write clean, readable code
+- Add comments for complex logic
+- Test your changes thoroughly
+- Follow the existing code style
+- Update documentation if needed
 ---
-
-## 📄 License
-
-MIT License - feel free to use this project for learning and development.
-
+## 📝 License
+This project is open source and available under the MIT License.
 ---
-
 ## 🙏 Acknowledgments
-
-- **Google Gemini AI** for powerful AI capabilities
-- **Firebase** for backend infrastructure
-- **shadcn/ui** for beautiful components
-- **Tailwind CSS** for styling
-
+- **Google Gemini AI** - For powering our intelligent features
+- **shadcn/ui** - For beautiful, accessible components
+- **Vite Team** - For the amazing build tool
+- **React Team** - For the incredible framework
 ---
-
 ## 📞 Support
-
-For setup issues, see [SETUP_GUIDE.md](./SETUP_GUIDE.md)
-
+Having issues? We're here to help!
+- 📧 **Email:** support@nexuscampushub.com
+- 💬 **Discord:** [Join our community](#)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/your-repo/issues)
+- 📖 **Docs:** Check out `PROJECT_DOCUMENTATION.md` for detailed guides
 ---
-
-**Built with ❤️ for college students**
+## 🗺️ Roadmap
+### Coming Soon
+- [ ] Dark mode support
+- [ ] Email integration (connect your inbox)
+- [ ] Mobile app (iOS & Android)
+- [ ] Calendar integration
+- [ ] Study group finder
+- [ ] GPA calculator
+- [ ] Course recommendations
+### In Progress
+- [x] AI-powered mail summarizer
+- [x] Beautiful, modern UI
+- [x] Responsive design
+---
+## ⭐ Show Your Support
+If you find Nexus Campus Hub helpful, please give it a star on GitHub! It helps others discover the project and motivates us to keep improving it.
+---
+<div align="center">
+**Made with ❤️ for students, by students**
+[⬆ Back to Top](#-nexus-campus-hub)
+</div>

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Calendar, FileText, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/layout";
 import { TimetableCard, AssignmentsList, PerformanceDashboard } from "@/components/academic";
+import StudyPlanner from "@/components/academic/StudyPlanner";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -237,7 +238,14 @@ const AcademicCockpit = () => {
           </TabsContent>
 
           <TabsContent value="performance" className="mt-0">
-            <PerformanceDashboard stats={performanceStats} />
+            <div className="space-y-6">
+              <PerformanceDashboard stats={performanceStats} />
+
+              {/* AI Study Planner */}
+              <div className="mt-6">
+                <StudyPlanner />
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import { Bell, User } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import { PageHeader } from "@/components/layout";
 import { MessMenuCard, MailSummarizer, AnnouncementsFeed } from "@/components/daily-pulse";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // Mock data
 const messMenu = {
@@ -45,6 +47,19 @@ const getCurrentMealType = (): "breakfast" | "lunch" | "dinner" => {
 
 const DailyPulse = () => {
   const currentMeal = getCurrentMealType();
+  const { userProfile, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const getGreeting = () => {
+    if (currentMeal === "breakfast") return "Morning";
+    if (currentMeal === "lunch") return "Afternoon";
+    return "Evening";
+  };
 
   return (
     <div className="min-h-screen">
@@ -53,18 +68,23 @@ const DailyPulse = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Avatar className="w-12 h-12 border-2 border-primary/20">
-              <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=student" />
-              <AvatarFallback>S</AvatarFallback>
+              <AvatarImage src={userProfile?.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userProfile?.email}`} />
+              <AvatarFallback>{userProfile?.displayName?.charAt(0) || 'U'}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm text-muted-foreground">Good {currentMeal === "breakfast" ? "Morning" : currentMeal === "lunch" ? "Afternoon" : "Evening"}</p>
-              <h1 className="text-xl font-bold text-foreground">Alex Johnson</h1>
+              <p className="text-sm text-muted-foreground">Good {getGreeting()}</p>
+              <h1 className="text-xl font-bold text-foreground">{userProfile?.displayName || 'Student'}</h1>
             </div>
           </div>
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={handleLogout} title="Logout">
+              <LogOut className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </header>
 

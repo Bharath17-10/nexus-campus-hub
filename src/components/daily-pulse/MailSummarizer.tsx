@@ -34,31 +34,37 @@ const MailSummarizer = () => {
     if (!emailContent.trim()) return;
 
     setIsProcessing(true);
-    
-    // Simulate AI processing
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setResult(null);
 
-    // Mock result - in real app, this would come from AI
-    const mockResults: SummaryResult[] = [
-      {
-        summary: "Final exam schedule released for semester end. Check your course-specific timings in the portal.",
-        category: "Academic",
-        priority: "High",
-      },
-      {
-        summary: "Annual cultural fest 'Harmony' registration opens next week. Early bird discounts available.",
-        category: "Event",
-        priority: "Medium",
-      },
-      {
-        summary: "Library will be closed for maintenance this weekend. Digital resources remain accessible.",
-        category: "General",
-        priority: "Low",
-      },
-    ];
-
-    setResult(mockResults[Math.floor(Math.random() * mockResults.length)]);
-    setIsProcessing(false);
+    try {
+      // Import the service dynamically to avoid issues
+      const { summarizeEmail } = await import('@/services/gemini.service');
+      const summary = await summarizeEmail(emailContent);
+      setResult(summary);
+    } catch (error: any) {
+      console.error('Error summarizing email:', error);
+      // Fallback to mock data if API fails
+      const mockResults: SummaryResult[] = [
+        {
+          summary: "Final exam schedule released for semester end. Check your course-specific timings in the portal.",
+          category: "Academic",
+          priority: "High",
+        },
+        {
+          summary: "Annual cultural fest 'Harmony' registration opens next week. Early bird discounts available.",
+          category: "Event",
+          priority: "Medium",
+        },
+        {
+          summary: "Library will be closed for maintenance this weekend. Digital resources remain accessible.",
+          category: "General",
+          priority: "Low",
+        },
+      ];
+      setResult(mockResults[Math.floor(Math.random() * mockResults.length)]);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const CategoryIcon = result ? categoryConfig[result.category].icon : Mail;

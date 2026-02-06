@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Users, MapPin, GraduationCap } from "lucide-react";
+import { Home, Users, MapPin, GraduationCap, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -23,6 +23,11 @@ const navItems = [
     path: "/academic",
     label: "Academic",
     icon: GraduationCap,
+  },
+  {
+    path: "/lost-found",
+    label: "Lost & Found",
+    icon: Package,
   },
 ];
 

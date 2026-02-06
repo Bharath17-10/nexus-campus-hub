@@ -3,6 +3,26 @@
 [![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![Powered by Vite](https://img.shields.io/badge/Powered%20by-Vite-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 [![AI Powered](https://img.shields.io/badge/AI-Powered-FF6B6B?style=for-the-badge&logo=google)](https://ai.google.dev/)
+> ## 🧩 Problem Statement Alignment (Hackathon Judges)
+
+Nexus Campus Hub is built specifically for the **AI Fusion Hackathon – Project Nexus** challenge.
+
+### Core Pillars Covered
+✅ Daily Pulse – Live dashboard + AI Mail Summarizer  
+✅ Student Exchange – Marketplace, Lost & Found, Travel Sharing (UI flows)  
+✅ Explorer’s Guide – Campus & nearby discovery  
+✅ Academic Cockpit – Timetable, LMS Lite, Academic planning  
+
+### Technical Requirements Met
+✅ Full-stack application (Frontend + Backend)  
+✅ AI/ML Component – Mail Summarizer (Gemini AI)  
+✅ Real-time interaction – Instant AI responses  
+✅ Authentication-ready architecture  
+✅ Responsive (Mobile + Desktop)  
+✅ Version-controlled & documented  
+
+**Focus:** One fully working intelligent feature + cohesive ecosystem design.
+
 ---
 ## 🏗️ System Architecture
 ### High-Level Overview
